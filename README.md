@@ -28,6 +28,9 @@ This repository contains the solutions and discussions for Assignment #2 of the 
 
 This assignment explores the application and analysis of advanced machine learning techniques, focusing on text generation, efficient model adaptation, and knowledge transfer between models.
 
+<img width="733" alt="Screenshot 2024-07-11 at 12 55 19 PM" src="https://github.com/pritamgouda11/Text-Generation-LoRA-and-Knowledge-Distillation/assets/46958858/0aca474c-0b59-4b25-aede-5b5b592d3fce">
+
+
 ## Problem 0: Text Generation with GPT-2
 
 ### Overview
@@ -59,7 +62,7 @@ Knowledge Distillation aims to transfer knowledge from a larger teacher model to
 An RNN was trained via knowledge distillation from the fine-tuned GPT-2 model. The student model achieved similar validation performance compared to the teacher model, confirming the effectiveness of the distillation process.
 
 ## Files Included
-
+```
 Text Generation, LoRA, and Knowledge Distillation
 ├── plots
 │   ├── Distillation_accuracy.png
@@ -77,9 +80,8 @@ Text Generation, LoRA, and Knowledge Distillation
 ├── run.py
 ├── train_utils.py
 └── utils.py
-
-- `Report_23754.pdf`: The complete assignment document.
-- `question3.ipynb`: Jupyter notebook for part (a) of Problem 3.
+```
+- `model.py`: Full definition of a GPT Language Model, all of it in this single file.
 
 ## Plots
 
@@ -103,10 +105,6 @@ Text Generation, LoRA, and Knowledge Distillation
    git clone https://github.com/yourusername/ml-techniques.git
    cd ml-techniques
    
-2. Open the Jupyter notebook for part (a) of Problem 3:
-   ```bash
-   jupyter notebook question3.ipynb
-
 ## Conclusion
 
 This assignment provides a comprehensive study of advanced ML techniques, demonstrating their practical applications and effectiveness in different scenarios.
