@@ -19,6 +19,7 @@ This repository contains the solutions and discussions for Assignment #2 of the 
 - [Problem 1: Low Rank Adaptation (LoRA)](#problem-1-low-rank-adaptation-lora)
 - [Problem 2: Knowledge Distillation](#problem-2-knowledge-distillation)
 - [Files Included](#files-included)
+- [Plots](#Plots)
 - [Usage](#usage)
 - [Conclusion](#conclusion)
 - [References](#references)
@@ -61,6 +62,21 @@ An RNN was trained via knowledge distillation from the fine-tuned GPT-2 model. T
 
 - `Report_23754.pdf`: The complete assignment document.
 - `question3.ipynb`: Jupyter notebook for part (a) of Problem 3.
+
+## Plots
+
+<p float="left">
+  <img src="https://github.com/pritamgouda11/Text-Generation-LoRA-and-Knowledge-Distillation/assets/46958858/e55a5235-69c9-4531-8cd5-6d7e563de739" width="300" />
+  <img src="https://github.com/pritamgouda11/Text-Generation-LoRA-and-Knowledge-Distillation/assets/46958858/3343af74-14f4-4b8b-b855-6288a60baa40" width="300" />
+</p>
+<p float="left">
+  <img src="https://github.com/pritamgouda11/Text-Generation-LoRA-and-Knowledge-Distillation/assets/46958858/d43048a0-79b5-4c29-ba03-74eef125f3f3" width="300" />
+  <img src="https://github.com/pritamgouda11/Text-Generation-LoRA-and-Knowledge-Distillation/assets/46958858/92bd4144-f400-44ef-8983-572f4739c683" width="300" />
+</p>
+<p float="left">
+  <img src="https://github.com/pritamgouda11/Text-Generation-LoRA-and-Knowledge-Distillation/assets/46958858/1a7bba94-b95b-48ba-ac94-3288995565c7" width="300" />
+  <img src="https://github.com/pritamgouda11/Text-Generation-LoRA-and-Knowledge-Distillation/assets/46958858/590cec82-4f66-4c1c-a7d0-01ac5e996457" width="300" />
+</p>
 
 ## Usage
 
