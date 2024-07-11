@@ -1,0 +1,34 @@
+epochs 3, alpha 1, dropout 0.1
+lora
+Epoch 0: Train loss: 0.6388, Train acc: 0.6958, Val loss: 0.6194, Val acc: 0.6925
+Epoch 1: Train loss: 0.6094, Train acc: 0.7043, Val loss: 0.6241, Val acc: 0.6925
+
+gen
+
+python run.py gen 23754
+forcing vocab_size=50257, block_size=1024, bias=True
+loading weights from pretrained gpt2 model
+Number of parameters: 125.03M
+
+Hello, I am Pritam. Today I went for a walk around my campus. I love learning new things - always all about universities. I am a special talent in my sleep.
+
+These are all things that I believe Naresh Tharoor should forever #fknow
+
+Why do I always search? To search for terms like "misc" and "#dogsniped" but never mention dat. i.e. Caffeinated coffee noodles etc.
+
+Everything you see on google counting the descendants of uploaded images is research! Chelsea Howell sums up a 16 '
+
+
+____________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+Hello, I am Pritam. Today when I was completing my assignment, I heard a loud noise. I raised my hand as if to allude to it but I couldn't answer…
+
+A low cry shot through the air. "What the…" an assistant apparently whispered ("Is it puppy time?"). Oh Gods that was genius! A year ago we had thought this was just a puppy shower. Now it is..I still don't know.
+
+Thankfully my gun went off, no shots, no shots counting as corpses. We shuffled through the dumpster until we found Quiet '
+____________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+
+Distil  lr 0.001 epoch 3
+Epoch 0: Train Loss: 0.3594, Train Acc: 0.7034, Val Loss: 0.6245, Val Acc: 0.6901
+Epoch 1: Train Loss: 0.3680, Train Acc: 0.7021, Val Loss: 0.6245, Val Acc: 0.6901

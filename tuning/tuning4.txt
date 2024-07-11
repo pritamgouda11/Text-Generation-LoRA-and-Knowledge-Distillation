@@ -1,0 +1,71 @@
+For 7 epochs
+(venv) pritamgouda@Pritams- assignment_sytems_for_ml % python run.py gen 23754
+forcing vocab_size=50257, block_size=1024, bias=True
+loading weights from pretrained gpt2 model
+Number of parameters: 125.03M
+
+Hello, I am Pritam. Today when I was completing my assignment, I heard a loud noise. I raised my hand as if to allude to it but I couldn't answer…
+
+A low cry shot through the air. "What the…" an assistant apparently whispered ("Is it puppy time?"). Oh Gods that was genius! A year ago we had thought this was just a puppy shower. Now it is..I still don't know.
+
+Thankfully my gun went off, no shots, no shots counting as corpses. We shuffled through the dumpster until we found Quiet '
+
+(venv) pritamgouda@Pritams- assignment_sytems_for_ml % python run.py LoRA 23754  
+forcing vocab_size=50257, block_size=1024, bias=True
+loading weights from pretrained gpt2 model
+Some weights of GPT2ForSequenceClassification were not initialized from the model checkpoint at gpt2 and are newly initialized: ['score.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Number of parameters: 125.03M
+Number of trainable parameters: 28.98M
+Reduction: 76.82%
+LoRA training starting...
+Using Adam optimizer with learning rate 0.001.
+Epoch 1: Training loss: 0.64686, Training accuracy: 0.695591, 
+Validation loss: 0.61986, Validation accurracy: 0.69260
+Epoch 2: Training loss: 0.60658, Training accuracy: 0.704245, 
+Validation loss: 0.61777, Validation accurracy: 0.69260
+Epoch 3: Training loss: 0.59388, Training accuracy: 0.706584, 
+Validation loss: 0.62276, Validation accurracy: 0.69450
+Epoch 4: Training loss: 0.57226, Training accuracy: 0.712899, 
+Validation loss: 0.64381, Validation accurracy: 0.70209
+Epoch 5: Training loss: 0.54573, Training accuracy: 0.727283, 
+Validation loss: 0.67022, Validation accurracy: 0.69070
+Plotting...
+Plotting accuracy done
+Saving...
+Plotting losses done
+Saving...
+Plots saved as  LoRA _accuracy.png and  LoRA _loss.png
+
+(venv) pritamgouda@Pritams- assignment_sytems_for_ml % python run.py distil 23754
+forcing vocab_size=50257, block_size=1024, bias=True
+loading weights from pretrained gpt2 model
+Some weights of GPT2ForSequenceClassification were not initialized from the model checkpoint at gpt2 and are newly initialized: ['score.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Number of parameters: 125.03M
+Number of trainable parameters: 28.98M
+Reduction: 76.82%
+distil starting...
+Using Adam optimizer with learning rate 0.001.
+/Users/pritamgouda/Downloads/sysml_project/venv/lib/python3.12/site-packages/torch/nn/functional.py:2976: UserWarning: reduction: 'mean' divides the total loss by both the batch size and the support size.'batchmean' divides only by the batch size, and aligns with the KL div math definition.'mean' will be changed to behave the same as 'batchmean' in the next major release.
+  warnings.warn(
+  Epoch 1: Training loss: 0.36044, Training accuracy: 0.704362, 
+Validation loss: 0.62524, Validation accurracy: 0.69260
+Epoch 2: Training loss: 0.36071, Training accuracy: 0.704362, 
+Validation loss: 0.62524, Validation accurracy: 0.69260
+Epoch 3: Training loss: 0.36063, Training accuracy: 0.704362, 
+Validation loss: 0.62524, Validation accurracy: 0.69260
+Epoch 4: Training loss: 0.36056, Training accuracy: 0.704362, 
+Validation loss: 0.62524, Validation accurracy: 0.69260
+Epoch 5: Training loss: 0.36044, Training accuracy: 0.704362, 
+Validation loss: 0.62524, Validation accurracy: 0.69260
+Plotting...
+Plotting accuracy done
+Saving...
+Plotting losses done
+Saving...
+Plots saved as Distillation_accuracy.png and Distillation_loss.png
+distil done
+
+
+

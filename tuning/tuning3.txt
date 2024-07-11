@@ -1,0 +1,75 @@
+For 5 epochs
+
+python run.py gen 23754
+forcing vocab_size=50257, block_size=1024, bias=True
+loading weights from pretrained gpt2 model
+Number of parameters: 125.03M
+
+Hello, I am Pritam. Today I went for a walk around my campus. I love learning new things - always all about universities. I am a special talent in my sleep.
+
+These are all things that I believe Naresh Tharoor should forever #fknow
+
+Why do I always search? To search for terms like "misc" and "#dogsniped" but never mention dat. i.e. Caffeinated coffee noodles etc.
+
+Everything you see on google counting the descendants of uploaded images is research! Chelsea Howell sums up a 16 '
+____________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+Hello, I am Pritam. Today when I was completing my assignment, I heard a loud noise. I raised my hand as if to allude to it but I couldn't answer…
+
+A low cry shot through the air. "What the…" an assistant apparently whispered ("Is it puppy time?"). Oh Gods that was genius! A year ago we had thought this was just a puppy shower. Now it is..I still don't know.
+
+Thankfully my gun went off, no shots, no shots counting as corpses. We shuffled through the dumpster until we found Quiet '
+____________________________________________________________________________________________________________________________________________________________________________________________________________________
+
+(venv) pritamgouda@Pritams- assignment_sytems_for_ml % python run.py LoRA 23754                                                                          
+forcing vocab_size=50257, block_size=1024, bias=True
+loading weights from pretrained gpt2 model
+Some weights of GPT2ForSequenceClassification were not initialized from the model checkpoint at gpt2 and are newly initialized: ['score.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Number of parameters: 125.03M
+Number of trainable parameters: 28.98M
+Reduction: 76.82%
+LoRA training starting...
+Using Adam optimizer with learning rate 0.001.
+Epoch 1: Train Loss: 0.6470, Train Accuracy: 0.6956, Val Loss: 0.6206, Val Accuracy: 0.6926
+Epoch 2: Train Loss: 0.6152, Train Accuracy: 0.7018, Val Loss: 0.6277, Val Accuracy: 0.6926
+Epoch 3: Train Loss: 0.6085, Train Accuracy: 0.7044, Val Loss: 0.6180, Val Accuracy: 0.6926
+Epoch 4: Train Loss: 0.6104, Train Accuracy: 0.7044, Val Loss: 0.6178, Val Accuracy: 0.6926
+Epoch 5: Train Loss: 0.6010, Train Accuracy: 0.7047, Val Loss: 0.6473, Val Accuracy: 0.6926
+Plotting accuracy done
+Plotting losses done
+LoRA training completed sucessful
+
+(venv) pritamgouda@Pritams- assignment_sytems_for_ml % python run.py distil 23754
+forcing vocab_size=50257, block_size=1024, bias=True
+loading weights from pretrained gpt2 model
+Some weights of GPT2ForSequenceClassification were not initialized from the model checkpoint at gpt2 and are newly initialized: ['score.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+Number of parameters: 125.03M
+Number of trainable parameters: 28.98M
+Reduction: 76.82%
+distil starting...
+Using Adam optimizer with learning rate 0.001.
+/Users/pritamgouda/Downloads/sysml_project/venv/lib/python3.12/site-packages/torch/nn/functional.py:2976: UserWarning: reduction: 'mean' divides the total loss by both the batch size and the support size.'batchmean' divides only by the batch size, and aligns with the KL div math definition.'mean' will be changed to behave the same as 'batchmean' in the next major release.
+  warnings.warn(
+Epoch 1: Train Loss: 0.3573, Train Acc: 0.7044, Val Loss: 0.6252, Val Acc: 0.6926
+Epoch 2: Train Loss: 0.3575, Train Acc: 0.7044, Val Loss: 0.6252, Val Acc: 0.6926
+Epoch 3: Train Loss: 0.3574, Train Acc: 0.7044, Val Loss: 0.6252, Val Acc: 0.6926
+Epoch 4: Train Loss: 0.3573, Train Acc: 0.7044, Val Loss: 0.6252, Val Acc: 0.6926
+Epoch 5: Train Loss: 0.3572, Train Acc: 0.7044, Val Loss: 0.6252, Val Acc: 0.6926
+Plotting...
+Plotting accuracy done
+Plotting losses done
+distil done
+
+(venv) pritamgouda@Pritams- assignment_sytems_for_ml % python run.py rnn 23754   
+RNN starting...
+Using Adam optimizer with learning rate 0.001.
+Epoch 1: Train Loss: 0.6099, Train Accuracy: 0.7044, Val Loss: 0.6252, Val Accuracy: 0.6926
+Epoch 2: Train Loss: 0.6090, Train Accuracy: 0.7044, Val Loss: 0.6252, Val Accuracy: 0.6926
+Epoch 3: Train Loss: 0.6090, Train Accuracy: 0.7044, Val Loss: 0.6252, Val Accuracy: 0.6926
+Epoch 4: Train Loss: 0.6089, Train Accuracy: 0.7044, Val Loss: 0.6252, Val Accuracy: 0.6926
+Epoch 5: Train Loss: 0.6092, Train Accuracy: 0.7044, Val Loss: 0.6252, Val Accuracy: 0.6926
+Plotting accuracy done
+Plotting losses done
+RNN done
