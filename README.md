@@ -28,9 +28,6 @@ This repository contains the solutions and discussions for Assignment #2 of the 
 
 This assignment explores the application and analysis of advanced machine learning techniques, focusing on text generation, efficient model adaptation, and knowledge transfer between models.
 
-<img width="733" alt="Screenshot 2024-07-11 at 12 55 19 PM" src="https://github.com/pritamgouda11/Text-Generation-LoRA-and-Knowledge-Distillation/assets/46958858/0aca474c-0b59-4b25-aede-5b5b592d3fce">
-
-
 ## Problem 0: Text Generation with GPT-2
 
 ### Overview
@@ -40,6 +37,8 @@ An exploration of GPT-2's text generation capabilities was conducted by providin
 ### Generated Text Instance
 
 The model generated a narrative based on the prompt, demonstrating its grasp of context and creative storytelling.
+
+<img width="733" alt="Screenshot 2024-07-11 at 12 55 19 PM" src="https://github.com/pritamgouda11/Text-Generation-LoRA-and-Knowledge-Distillation/assets/46958858/0aca474c-0b59-4b25-aede-5b5b592d3fce">
 
 ## Problem 1: Low Rank Adaptation (LoRA)
 
