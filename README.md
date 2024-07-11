@@ -60,6 +60,24 @@ An RNN was trained via knowledge distillation from the fine-tuned GPT-2 model. T
 
 ## Files Included
 
+Text Generation, LoRA, and Knowledge Distillation
+├── plots
+│   ├── Distillation_accuracy.png
+│   ├── Distillation_loss.png
+│   ├── LoRA_accuracy.png
+│   ├── LoRA_loss.png
+│   ├── rnn_accuracy.png
+│   └── rnn_loss.png
+├── tuning
+│   ├── tuning.txt
+│   ├── tuning2.txt
+│   ├── tuning3.txt
+│   └── tuning4.txt
+├── model.py
+├── run.py
+├── train_utils.py
+└── utils.py
+
 - `Report_23754.pdf`: The complete assignment document.
 - `question3.ipynb`: Jupyter notebook for part (a) of Problem 3.
 
