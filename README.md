@@ -68,3 +68,22 @@ An RNN was trained via knowledge distillation from the fine-tuned GPT-2 model. T
    ```bash
    git clone https://github.com/yourusername/ml-techniques.git
    cd ml-techniques
+   
+2. Open the Jupyter notebook for part (a) of Problem 3:
+   ```bash
+   jupyter notebook question3.ipynb
+
+## Conclusion
+
+This assignment provides a comprehensive study of advanced ML techniques, demonstrating their practical applications and effectiveness in different scenarios.
+
+## References
+
+[Practical Tips for Finetuning LLMs Using LoRA
+](https://magazine.sebastianraschka.com/p/practical-tips-for-finetuning-llms)
+
+[Knowledge Distillation: Principles, Algorithms, Applications
+](https://magazine.sebastianraschka.com/p/practical-tips-for-finetuning-llms)
+
+[Pretraining a 124-M Parameter GPT-2 Language Model
+](https://wandb.ai/bkkaggle/lm-finetuning/reports/Pretraining-a-124-M-Parameter-GPT-2-Language-Model--VmlldzoyMjg4NzA)
