@@ -76,13 +76,15 @@ Text Generation, LoRA, and Knowledge Distillation
 │   ├── tuning2.txt
 │   ├── tuning3.txt
 │   └── tuning4.txt
+├── Report_23754.pdf
 ├── model.py
 ├── run.py
 ├── train_utils.py
 └── utils.py
 ```
 - `model.py`: Full definition of a GPT Language Model, all of it in this single file.
-
+- `Report_23754.pdf`: Detailed project report with explanation.
+  
 ## Plots
 
 <p float="left">
