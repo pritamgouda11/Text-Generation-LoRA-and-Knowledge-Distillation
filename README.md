@@ -88,26 +88,23 @@ Text Generation, LoRA, and Knowledge Distillation
 
 ## Plots
 
-<div style="display: flex; flex-wrap: wrap; gap: 10px;">
-  <div style="flex: 1 1 45%; margin-bottom: 10px;">
-    <img src="https://github.com/user-attachments/assets/bc7081c4-d647-4b60-98fa-a0cd4329b404" alt="distil_22582_acc" style="width: 100%;">
-  </div>
-  <div style="flex: 1 1 45%; margin-bottom: 10px;">
-    <img src="https://github.com/user-attachments/assets/db50a2ce-b0bc-4bbc-bf9f-771b5e837793" alt="distil_22582_loss" style="width: 100%;">
-  </div>
-  <div style="flex: 1 1 45%; margin-bottom: 10px;">
-    <img src="https://github.com/user-attachments/assets/7e90829e-0f6a-4c60-afdf-388384c0cfe2" alt="LoRA_22582_acc" style="width: 100%;">
-  </div>
-  <div style="flex: 1 1 45%; margin-bottom: 10px;">
-    <img src="https://github.com/user-attachments/assets/f745f117-44cc-41f0-a0e9-a40d44bacfe8" alt="LoRA_22582_loss" style="width: 100%;">
-  </div>
-  <div style="flex: 1 1 45%; margin-bottom: 10px;">
-    <img src="https://github.com/user-attachments/assets/c5b1c6d9-a520-40c5-adbc-3396a2c953bb" alt="rnn_22582_acc" style="width: 100%;">
-  </div>
-  <div style="flex: 1 1 45%; margin-bottom: 10px;">
-    <img src="https://github.com/user-attachments/assets/c99ab75e-f43f-474f-8d02-44af1f7b626d" alt="rnn_22582_loss" style="width: 100%;">
-  </div>
-</div>
+## Plots
+
+<table>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/bc7081c4-d647-4b60-98fa-a0cd4329b404" alt="distil_22582_acc" style="width: 100%;"></td>
+    <td><img src="https://github.com/user-attachments/assets/db50a2ce-b0bc-4bbc-bf9f-771b5e837793" alt="distil_22582_loss" style="width: 100%;"></td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/7e90829e-0f6a-4c60-afdf-388384c0cfe2" alt="LoRA_22582_acc" style="width: 100%;"></td>
+    <td><img src="https://github.com/user-attachments/assets/f745f117-44cc-41f0-a0e9-a40d44bacfe8" alt="LoRA_22582_loss" style="width: 100%;"></td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/user-attachments/assets/c5b1c6d9-a520-40c5-adbc-3396a2c953bb" alt="rnn_22582_acc" style="width: 100%;"></td>
+    <td><img src="https://github.com/user-attachments/assets/c99ab75e-f43f-474f-8d02-44af1f7b626d" alt="rnn_22582_loss" style="width: 100%;"></td>
+  </tr>
+</table>
+
 
 
 ## Usage
