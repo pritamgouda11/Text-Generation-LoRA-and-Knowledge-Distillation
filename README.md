@@ -86,18 +86,29 @@ Text Generation, LoRA, and Knowledge Distillation
   
 ## Plots
 
-<p float="left">
-  <img src="https://github.com/pritamgouda11/Text-Generation-LoRA-and-Knowledge-Distillation/assets/46958858/e55a5235-69c9-4531-8cd5-6d7e563de739" width="300" />
-  <img src="https://github.com/pritamgouda11/Text-Generation-LoRA-and-Knowledge-Distillation/assets/46958858/3343af74-14f4-4b8b-b855-6288a60baa40" width="300" />
-</p>
-<p float="left">
-  <img src="https://github.com/pritamgouda11/Text-Generation-LoRA-and-Knowledge-Distillation/assets/46958858/d43048a0-79b5-4c29-ba03-74eef125f3f3" width="300" />
-  <img src="https://github.com/pritamgouda11/Text-Generation-LoRA-and-Knowledge-Distillation/assets/46958858/92bd4144-f400-44ef-8983-572f4739c683" width="300" />
-</p>
-<p float="left">
-  <img src="https://github.com/pritamgouda11/Text-Generation-LoRA-and-Knowledge-Distillation/assets/46958858/1a7bba94-b95b-48ba-ac94-3288995565c7" width="300" />
-  <img src="https://github.com/pritamgouda11/Text-Generation-LoRA-and-Knowledge-Distillation/assets/46958858/590cec82-4f66-4c1c-a7d0-01ac5e996457" width="300" />
-</p>
+## Plots
+
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+  <div style="flex: 1 1 45%; margin-bottom: 10px;">
+    <img src="https://github.com/user-attachments/assets/bc7081c4-d647-4b60-98fa-a0cd4329b404" alt="distil_22582_acc" style="width: 100%;">
+  </div>
+  <div style="flex: 1 1 45%; margin-bottom: 10px;">
+    <img src="https://github.com/user-attachments/assets/db50a2ce-b0bc-4bbc-bf9f-771b5e837793" alt="distil_22582_loss" style="width: 100%;">
+  </div>
+  <div style="flex: 1 1 45%; margin-bottom: 10px;">
+    <img src="https://github.com/user-attachments/assets/7e90829e-0f6a-4c60-afdf-388384c0cfe2" alt="LoRA_22582_acc" style="width: 100%;">
+  </div>
+  <div style="flex: 1 1 45%; margin-bottom: 10px;">
+    <img src="https://github.com/user-attachments/assets/f745f117-44cc-41f0-a0e9-a40d44bacfe8" alt="LoRA_22582_loss" style="width: 100%;">
+  </div>
+  <div style="flex: 1 1 45%; margin-bottom: 10px;">
+    <img src="https://github.com/user-attachments/assets/c5b1c6d9-a520-40c5-adbc-3396a2c953bb" alt="rnn_22582_acc" style="width: 100%;">
+  </div>
+  <div style="flex: 1 1 45%; margin-bottom: 10px;">
+    <img src="https://github.com/user-attachments/assets/c99ab75e-f43f-474f-8d02-44af1f7b626d" alt="rnn_22582_loss" style="width: 100%;">
+  </div>
+</div>
+
 
 ## Usage
 
