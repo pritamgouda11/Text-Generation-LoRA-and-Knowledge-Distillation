@@ -48,7 +48,31 @@ LoRA is a Parameter-Efficient Fine-tuning (PEFT) technique that allows for selec
 
 ### Implementation and Results
 
-LoRA was integrated into the GPT-2 model, and the adaptation was tested on the CoLA dataset. The fine-tuned model achieved a balance between computational efficiency and accuracy, with final training and validation accuracies of 70.47% and 69.26% respectively.
+LoRA was integrated into the GPT-2 model, and the adaptation was tested on the CoLA dataset. The fine-tuned model achieved a balance between computational efficiency and accuracy.
+
+#### Model Details
+
+- **GPT2 Variant Used:** Medium
+- **Total Number of Parameters:** 356.40M
+- **Number of Trainable Parameters:** 1.68M
+- **Reduction in Parameters:** 99.53%
+- **Maximum Accuracy on CoLA Validation Dataset:** 82.73%
+
+- **GPT2 Variant Used:** Base
+- **Total Number of Parameters:** 125.03M
+- **Number of Trainable Parameters:** 0.63M
+- **Reduction in Parameters:** 99.50%
+
+#### Training Strategy
+
+The GPT-2 model was fine-tuned using the following hyperparameters:
+- **Learning Rate:** 1e-3
+- **Number of Epochs:** 10
+- **Batch Size:** 128
+- **Optimizer:** Adam
+- **Loss Function:** Cross-Entropy Loss
+- **LoRA Rank:** 4
+
 
 ## Problem 2: Knowledge Distillation
 
@@ -59,6 +83,29 @@ Knowledge Distillation aims to transfer knowledge from a larger teacher model to
 ### Implementation and Results
 
 An RNN was trained via knowledge distillation from the fine-tuned GPT-2 model. The student model achieved similar validation performance compared to the teacher model, confirming the effectiveness of the distillation process.
+
+#### Distillation Strategy
+
+To distill knowledge from the fine-tuned GPT model (teacher model) to the DistilRNN model (student model) for the CoLA classification dataset, the distillation loss function used is a combination of soft target loss and true label loss.
+
+#### DistilRNN Architecture
+
+- Embedding layer mapping input tokens to dense vectors of size 768.
+- Two-layer RNN with hidden size 768.
+- ReLU activation function.
+- Linear layer projecting the output to a 2-dimensional space for binary classification.
+
+#### Optimal Training Hyperparameters
+
+- **Batch size:** 128
+- **Learning rate:** 1e-3
+- **Number of epochs:** 5
+
+#### Results
+
+- **Maximum Accuracy on CoLA Validation Dataset:** 71%
+- **Accuracy without KD:** 68%
+- **Accuracy Improvement with KD:** 3%
 
 ## Files Included
 ```
@@ -83,10 +130,7 @@ Text Generation, LoRA, and Knowledge Distillation
 ```
 - `model.py`: Full definition of a GPT Language Model, all of it in this single file.
 - `Report_23754.pdf`: Detailed project report with explanation.
-  
-## Plots
 
-## Plots
 
 ## Plots
 
