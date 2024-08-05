@@ -69,11 +69,18 @@ class CausalSelfAttention(nn.Module):
         # 1. add the auxiliary LoRA linear layer here corresponding to c_attn
         # 2. add the auxiliary LoRA linear layer here corresponding to c_proj
         # 3. remove the gradients from the c_attn and c_proj layers
-        self.c_attn.requires_grad_(False)
-        self.c_proj.requires_grad_(False)
-
-        self.aux_c_attn = LoRALinear(config.n_embd, 3 * config.n_embd, config.LoRA_rank)
-        self.aux_c_proj = LoRALinear(config.n_embd, config.n_embd, config.LoRA_rank)
+        
+        # added by me 
+        self.c_attn_lora = LoRALinear(config.n_embd, 3 * config.n_embd, config.LoRA_rank)
+        self.c_proj_lora = LoRALinear(config.n_embd, config.n_embd, config.LoRA_rank)
+        self.c_attn.weight.requires_grad = False # remove the gradients from the c_attn layer because we are using the LoRA layer instead of this
+        self.c_proj.weight.requires_grad = False # remove the gradients from the c_proj layer because we are using the LoRA layer instead of this
+        self.c_attn.bias.requires_grad = False 
+        self.c_proj.bias.requires_grad = False
+        
+        # until here 
+        
+        
 
     def forward(self, x):
         B, T, C = x.size() # batch size, sequence length, embedding dimensionality (n_embd)
@@ -82,8 +89,9 @@ class CausalSelfAttention(nn.Module):
         attn_out = self.c_attn(x)
 
         # TODO: send x through the auxiliary c_attn and add them back to attn_out
-        aux_attn_out = self.aux_c_attn(x)
-        attn_out = attn_out + aux_attn_out
+        x = self.c_attn_lora(x)
+        attn_out = attn_out + x
+        # print(f"shape of x in CausalSelfAttention: {attn_out.shape}")
 
         # calculate query, key, values for all heads in batch and move head forward to be the batch dim
         q, k, v  = attn_out.split(self.n_embd, dim=2)
@@ -109,10 +117,13 @@ class CausalSelfAttention(nn.Module):
         proj_out = self.c_proj(y)
 
         # TODO: send y through the auxiliary c_proj and add them back to proj_out
-        aux_proj_out = self.aux_c_proj(y)
-        proj_out = proj_out + aux_proj_out
+        # added by me
+        proj_out = proj_out + self.c_proj_lora(y)
+        # added by me 
 
         y = self.resid_dropout(proj_out)
+        
+        # print(f"shape of y after residual dropout: {y.shape}")
         return y
 
 
@@ -128,25 +139,37 @@ class MLP(nn.Module):
         # 1. add the auxiliary LoRA linear layer here corresponding to c_fc
         # 2. add the auxiliary LoRA linear layer here corresponding to c_proj
         # 3. remove the gradients from the c_fc and c_proj layers
-        self.c_fc.requires_grad_(False)
-        self.c_proj.requires_grad_(False)
-        self.aux_fc = LoRALinear(config.n_embd, 4 * config.n_embd, config.LoRA_rank)
-        self.aux_proj = LoRALinear(4 * config.n_embd, config.n_embd, config.LoRA_rank)
+        
+        # added by me 
+        self.c_fc_lora = LoRALinear(config.n_embd, 4 * config.n_embd, config.LoRA_rank)
+        self.c_proj_lora = LoRALinear(4 * config.n_embd, config.n_embd, config.LoRA_rank)
+        self.c_fc.weight.requires_grad = False
+        self.c_proj.weight.requires_grad = False
+        self.c_fc.bias.requires_grad = False
+        self.c_proj.bias.requires_grad = False
+        # added by me 
+        
 
-    def forward(self, input):
+    def forward(self, x):
         # TODO: modify the forward pass to pass the input through the auxiliary LoRA layers and add them back to the compute graph for automatic backpropagation
-        x = self.c_fc(input) #+ self.aux_fc(input)
+       
+        x = self.c_fc_lora(x) + self.c_fc(x)
         x = self.gelu(x)
-        x = self.c_proj(x) #+ self.aux_proj(x)
+        x = self.c_proj_lora(x) + self.c_proj(x)
         x = self.dropout(x)
-
-        y = self.aux_fc(input)
-        y = self.gelu(y)
-        y = self.aux_proj(y)
-        y = self.dropout(y)
-
-        x += y
+        
         return x
+        
+        
+        
+        # commented by me which they have given
+        # x = self.c_fc(x)
+        # x = self.gelu(x)
+        # x = self.c_proj(x)
+        # x = self.dropout(x)
+        
+        
+        # return x
 
 
 class Block(nn.Module):
@@ -166,7 +189,7 @@ class Block(nn.Module):
 class GPT(nn.Module):
     def __init__(self, model_type='gpt2', LoRA_rank=4, is_gen=False):
         super(GPT, self).__init__()
-
+        
         # n_layer, n_head and n_embd are determined from model_type
         config_args = {
             'gpt2':         dict(n_layer=12, n_head=12, n_embd=768),  # 124M params
@@ -176,8 +199,8 @@ class GPT(nn.Module):
         }[model_type]
         print("forcing vocab_size=50257, block_size=1024, bias=True")
         config_args['vocab_size'] = 50257 # always 50257 for GPT model checkpoints
-        config_args['block_size'] = 1024 # always 1024 for GPT model checkpoints
-        config_args['bias'] = True # always True for GPT model checkpoints
+        config_args['block_size'] = 1024  # always 1024 for GPT model checkpoints
+        config_args['bias'] = True        # always True for GPT model checkpoints
         config_args['LoRA_rank'] = LoRA_rank # decomposition rank for LoRA
 
         self.config = GPTConfig(**config_args)
@@ -198,9 +221,10 @@ class GPT(nn.Module):
             self.score = nn.Linear(self.config.n_embd, 2, bias=False)
 
         # TODO: Remove gradients from the embedding layers
-        self.transformer.wte.weight.requires_grad_(False)
-        self.transformer.wpe.weight.requires_grad_(False)
-
+        # added by me below
+        self.transformer.wte.weight.requires_grad = False
+        self.transformer.wpe.weight.requires_grad = False
+        # added by me above 
         sd = self.state_dict()
         sd_keys = sd.keys()
         sd_keys = [k for k in sd_keys if not k.endswith('.attn.bias')]
@@ -269,8 +293,9 @@ class GPT(nn.Module):
                 # if mask is provided, only return the logits for the last token in each sequence
                 logits = self.score(x[torch.arange(b, device=device), eos_idxs])
             else:
+                
                 logits = self.score(x[:, -1, :])
-
+               
         return logits
 
     def crop_block_size(self, block_size):
@@ -291,12 +316,17 @@ class GPT(nn.Module):
         the sequence max_new_tokens times, feeding the predictions back into the model each time.
         Most likely you'll want to make sure to be in model.eval() mode of operation for this.
         """
+        
+       
         for _ in range(max_new_tokens):
             # if the sequence context is growing too long we must crop it at block_size
+            
+            # print(f"shape of idx in generate: {idx.shape}") # added by me 
             idx_cond = idx if idx.size(1) <= self.config.block_size else idx[:, -self.config.block_size:]
             # forward the model to get the logits for the index in the sequence
             logits = self(idx_cond)
             # pluck the logits at the final step and scale by desired temperature
+            
             logits = logits[:, -1, :] / temperature
             # optionally crop the logits to only the top k options
             if top_k is not None:
@@ -328,17 +358,38 @@ class GPT(nn.Module):
 
 class LoRALinear(nn.Module):
     # TODO: Implement LoRA model. Add two matrics for LoRA decomposition
-    def __init__(self, inputdim, outputdim, rank) -> None:
-        super().__init__()
+    # pass
+    def __init__(self, in_features, out_features, rank):
+        super(LoRALinear, self).__init__()
+        self.in_features = in_features
+        self.out_features = out_features
         self.rank = rank
-        self.L = nn.Parameter(torch.randn(inputdim, rank))
-        nn.init.normal_(self.L, mean=0.0, std=1)
-        self.R = nn.Parameter(torch.zeros(rank, outputdim))
-        self.alpha = 1
-
+        self.lora_dropout = nn.Dropout(0.1)
+        self.U = nn.Parameter(torch.Tensor(in_features, rank))
+        self.V = nn.Parameter(torch.Tensor(rank, out_features))
+        self.reset_parameters()
+        
+        
+    def reset_parameters(self):
+        nn.init.kaiming_uniform_(self.U, a=math.sqrt(5))
+        nn.init.kaiming_uniform_(self.V, a=math.sqrt(5))
+        # nn.init.xavier_uniform_(self.U)
+        # nn.init.xavier_uniform_(self.V)
+        
+    
     def forward(self, x):
-        W = (self.L @ self.R) * self.alpha
-        return x @ W
+        
+        # print(f"shape of x in LoRALinear: {x.shape}")
+        
+        # perform low rank decomposition
+        x = self.lora_dropout(x)
+        x = torch.matmul(x, self.U)
+        x = torch.matmul(x, self.V)
+        
+        # print(f"shape of x in LoRALinear: {x.shape}")
+        
+        return x 
+        
 
 
 ################################################################################
@@ -347,16 +398,20 @@ class LoRALinear(nn.Module):
 
 class DistilRNN(nn.Module):
     # TODO: Implement DistilRNN model
-    def __init__(self, in_dim = 768, hidden_dim = 256, out_dim = 2) -> None:
-        super().__init__()
-        self.embed = nn.Embedding(GPTConfig.vocab_size, in_dim)
-        self.rnn = nn.RNN(in_dim, hidden_size=hidden_dim, num_layers=2, nonlinearity='relu', dropout=0.1)
-        self.fc = nn.Linear(hidden_dim, out_dim)
-        self.softmax = nn.Softmax(out_dim)
-
-    def forward(self, x, mask):
-        x = self.embed(x)
-        x, _ = self.rnn(x)
-        x = self.fc(x)
-        x = self.softmax(x)
-        return x[:, -1, :]
+    def __init__(self):
+        super(DistilRNN, self).__init__()
+        
+        self.embedding = nn.Embedding(50257, 768)
+        self.rnn = nn.RNN(768, 768, num_layers=1, batch_first=True)
+        # self.relu = nn.ReLU()
+        self.fc = nn.Linear(768, 2)
+        
+    def forward(self, x,mask=None ):
+        
+        x = self.embedding(x)
+        
+        # h0 = torch.zeros(2, x.size(0), 768).to(x.device)
+        x, _ = self.rnn(x)    
+        # x = self.relu(x)
+        x = self.fc(x[:, -1, :])
+        return x
