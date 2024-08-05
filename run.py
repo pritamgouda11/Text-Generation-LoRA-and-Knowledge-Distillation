@@ -5,6 +5,7 @@ from utils import *
 from train_utils import *
 from model import *
 
+import matplotlib.pyplot as plt # added by me for plotting
 
 def main(args):
     tokenizer = AutoTokenizer.from_pretrained('gpt2')
@@ -21,7 +22,8 @@ def main(args):
         model.eval()
 
         # TODO: You can add your super creative prompt here
-        prompt = "Hello, I am Pritam. Today when I was completing my assignment, I heard a loud noise."
+        prompt = "My name is Inigo Montoya. You killed my father. Prepare to die. "
+        # prompt = "Once upon a time, in a land far far away, there was a"
 
         input_ids = tokenizer.encode(prompt, return_tensors='pt').to(args.device)
         output = model.generate(input_ids, max_new_tokens=args.max_new_tokens)
@@ -29,15 +31,30 @@ def main(args):
 
     elif args.mode == "LoRA":    
         model = GPT(args.gpt_variant, LoRA_rank=args.LoRA_rank).to(args.device)
+        
         # TODO: Implement the training loop (fill the train and evaluate functions in train_utils.py)
-        # TODO: Also plot the training losses and metrics
-        optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
         criterion = torch.nn.CrossEntropyLoss()
-        print("LoRA training starting...")
-        print(f"Using Adam optimizer with learning rate {args.lr}.")
-        train(model, train_loader, val_loader, optimizer, criterion, args.device, args.epochs)
-        print("LoRA training completed sucessful")
-
+        optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
+        train_losses = []
+        val_losses = []
+        train_accs = []
+        val_accs = []
+        
+        for epoch in range(args.epochs):
+            train_loss,train_acc = train(model,model, train_loader, optimizer, criterion, args.device, args.mode)
+            val_loss,val_acc = evaluate(model, val_loader, criterion, args.device)
+            train_losses.append(train_loss)
+            val_losses.append(val_loss)
+            train_accs.append(train_acc)
+            val_accs.append(val_acc)
+            
+            print(f"Epoch {epoch+1}/{args.epochs}: Train Loss: {train_loss:.4f}, Train Acc: {train_acc:.4f}, Val Loss: {val_loss:.4f}, Val Acc: {val_acc:.4f}")
+            
+        
+        # TODO: Also plot the training losses and metrics
+        # save the plot in plots folder 
+        plot_losses(train_losses, val_losses, args.mode, args)
+        plot_metrics(train_accs, val_accs, args.mode, args)
         model.save_trainable_params(args.model_path)
         
     elif args.mode == "distil":
@@ -45,29 +62,49 @@ def main(args):
         teacher_model.load_trainable_params(args.model_path)
         teacher_model.eval()
 
-        student_model = DistilRNN(hidden_dim=args.hidden_dim).to(args.device)  # TODO: Implement the student model class
+        student_model = DistilRNN().to(args.device)  # TODO: Implement the student model class
         # TODO: Implement the training loop (fill the train and evaluate functions in train_utils.py)
         # HINT: You can use an additional parameter in train function to differentiate LoRA and distillation training, no changes in evaluate function required.
-        optimizer = torch.optim.Adam(student_model.parameters(), lr=args.lr)
-        distil_criterion = torch.nn.KLDivLoss()
         criterion = torch.nn.CrossEntropyLoss()
-        print("distil starting...")
-        print(f"Using Adam optimizer with learning rate {args.lr}.")
-        train_distil(teacher_model, student_model, train_loader, val_loader, optimizer, criterion, distil_criterion, args.device, args.epochs)
-        print("distil done")
-        # raise NotImplementedError
-
+        optimizer = torch.optim.Adam(student_model.parameters(), lr=args.lr)
+        train_losses = []
+        val_losses = []
+        train_accs = []
+        val_accs = []
+        for epoch in range(args.epochs):
+            train_loss,train_acc = train(teacher_model, student_model, train_loader, optimizer, criterion, args.device, args.mode)
+            val_loss , val_acc = evaluate(student_model, val_loader, criterion, args.device)
+            train_losses.append(train_loss)
+            val_losses.append(val_loss)
+            train_accs.append(train_acc)
+            val_accs.append(val_acc)
+            print(f"Epoch {epoch+1}/{args.epochs}: Train Loss: {train_loss:.4f}, Train Acc: {train_acc:.4f}, Val Loss: {val_loss:.4f}, Val Acc: {val_acc:.4f}")    
+        
+        plot_losses(train_losses, val_losses, args.mode, args)
+        plot_metrics(train_accs, val_accs, args.mode, args)
+        
     elif args.mode == "rnn":
         model = DistilRNN().to(args.device)
-        # TODO: Implement the training loop (fill the train and evaluate functions in train_utils.py)optimizer = torch.optim.Adam(student_model.parameters(), lr=args.lr)
-        optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
+        # TODO: Implement the training loop (fill the train and evaluate functions in train_utils.py)
         criterion = torch.nn.CrossEntropyLoss()
-        print("RNN starting...")
-        # print(f"Initialized RNN model with {sum(p.numel() for p in model.parameters() if p.requires_grad)} trainable parameters.")
-        print(f"Using Adam optimizer with learning rate {args.lr}.")
-        train(model, train_loader, val_loader, optimizer, criterion, args.device, args.epochs, is_rnn=True)
-        print("RNN done")
-        # raise NotImplementedError
+        optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
+        train_losses = []
+        val_losses = []
+        train_accs = []
+        val_accs = []
+        for epoch in range(args.epochs):
+            train_loss,train_acc = train(model, model, train_loader, optimizer, criterion, args.device, args.mode)
+            val_loss , val_acc = evaluate(model, val_loader, criterion, args.device)
+            train_losses.append(train_loss)
+            val_losses.append(val_loss)
+            train_accs.append(train_acc)
+            val_accs.append(val_acc)
+            print(f"Epoch {epoch+1}/{args.epochs}: Train Loss: {train_loss:.4f}, Train Acc: {train_acc:.4f}, Val Loss: {val_loss:.4f}, Val Acc: {val_acc:.4f}") 
+            
+        plot_losses(train_losses, val_losses, args.mode, args)
+        plot_metrics(train_accs, val_accs, args.mode, args)
+           
+        
     else:
         print("Invalid mode")
         return
@@ -85,12 +122,8 @@ if __name__ == "__main__":
     parser.add_argument("--batch_size", type=int, default=128, help="Batch size")
     parser.add_argument("--epochs", type=int, default=5, help="Number of epochs")
     parser.add_argument("--LoRA_rank", type=int, default=4, help="Low rank matrix bottleneck")
-    parser.add_argument("--hidden_dim", type=int, default=256, help="RNN Hidden Dimensions")
     # TODO: Add more arguments as needed
-    # parser.add_argument("--val_split", type=float, default=0.1, help="Proportion of data reserved for validation")
-    # parser.add_argument("--early_stopping", type=int, default=0, help="Number of epochs to wait before early stop if no progress on the validation set")
-    # parser.add_argument("--verbose", action='store_true', help="Increase output verbosity")
-
+    
     args = parser.parse_args()
     args.device = torch.device(
         "cuda:4" if torch.cuda.is_available() and args.gpu_id >= 0 else\
